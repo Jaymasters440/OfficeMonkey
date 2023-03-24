@@ -6,15 +6,28 @@ VALUES ("Technical Development"),
        ("Finance"),
        ("logistics");
 
-INSERT INTO role (name, department)
-VALUES  ("Loki Laufeyjarson" , 3),
-        ("Thor Odinson", 2),
-        ("Var ", 5),
-        ("Hulk" 2),
-        ("Tony Stark" , 1),
-        ("Bruce Wane" 1),
-        ("Amy Bendix" , 5),
-        ("Leland Owlsley" , 6),
-        ("Natasha Romanoff" , 4)
-        ("Ultron" , 1)
-        ("Loelei" , 4)
+
+INSERT INTO role (title, salary, department_id)
+VALUES ("Public Relations Spec.", 100000, 3),
+        ("Public Relations Manager", 150000, 3),
+        ("Logistics Tech.", 120000, 6),
+        ("IT", 120000, 4),
+        ("Finance Spec", 150000, 5),
+        ("Finance Manager", 200000, 5),
+        ("Logistics", 150000, 6);
+
+
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+
+VALUES  ("Loki",  "Laufeyjarson" , 2,5),
+        ("Thor", "Odinson", 2, 1),
+        ("Var", "",5),
+        ("The", "Hulk", 1, 1),
+        ("Tony", "Stark" , 1),
+        ("Bruce", "Wayne", 1, 5),
+        ("Amy", "Bendix" , 5, 5),
+        ("Leland", "Owlsley" , 6, 5),
+        ("Natasha", "Romanoff" , 5, 7),
+        ("Ultron", "" , 1, 5),
+        ("Loelei" ,"", 4, 5);
