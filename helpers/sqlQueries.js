@@ -29,6 +29,15 @@ const db = mysql.createConnection(
         console.log(result);
       });
   } 
+
+  function displayEmployee(){
+    db.query(`SELECT role.title, role.id, role.salary, department.name FROM role INNER JOIN department ON role.department_id=department.id`, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(result);
+      });
+  }
   module.exports={
     displayRoles,
     displayDepartments
