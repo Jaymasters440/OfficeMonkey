@@ -46,6 +46,14 @@ const db = mysql.createConnection(
         console.log(result);
       })
   }
+  function addRole(title, salary, department_id){
+    db.query(`INSERT INTO role (title, salary, department_id) VALUE ("${title}", "${salary}", "${department_id}");`, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(result);
+      })
+  }
  
   module.exports={
     displayRoles,
