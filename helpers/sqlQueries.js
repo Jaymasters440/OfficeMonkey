@@ -22,7 +22,7 @@ const db = mysql.createConnection(
   } 
 
   function displayRoles(){
-    db.query(`SELECT role.title, role.id, role.salary, department.name FROM role INNER JOIN department ON role.department_id=department.id`, (err, result) => {
+    db.query(`SELECT title, role.id,  department.name AS department, salary FROM role INNER JOIN department ON role.department_id = department.id;`, (err, result) => {
         if (err) {
           console.log(err);
         }
@@ -30,15 +30,25 @@ const db = mysql.createConnection(
       });
   } 
 
-  function displayEmployee(){
-    db.query(`SELECT role.title, role.id, role.salary, department.name FROM role INNER JOIN department ON role.department_id=department.id`, (err, result) => {
+  function displayAllEmployees(){
+    db.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, manager.first_name AS manager FROM employee JOIN role ON employee.role_id = role.id LEFT JOIN employee manager ON manager.id = employee.manager_id JOIN department ON role.department_id=department.id;`, (err, result) => {
         if (err) {
           console.log(err);
         }
         console.log(result);
       });
   }
+  function addDepartment(name){
+    db.query(`INSERT INTO department (name) VALUE ("${name}");`, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(result);
+      })
+  }
+ 
   module.exports={
     displayRoles,
-    displayDepartments
+    displayDepartments,
+    displayAllEmployees,
   }

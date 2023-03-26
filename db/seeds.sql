@@ -22,9 +22,9 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id)
 
 VALUES  ("Loki",  "Laufeyjarson" , 2,5),
         ("Thor", "Odinson", 2, 1),
-        ("Var", "",5),
+        ("Var", "",5, 5),
         ("The", "Hulk", 1, 1),
-        ("Tony", "Stark" , 1),
+        ("Tony", "Stark" , 1, NULL),
         ("Bruce", "Wayne", 1, 5),
         ("Amy", "Bendix" , 5, 5),
         ("Leland", "Owlsley" , 6, 5),

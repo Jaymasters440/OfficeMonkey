@@ -20,3 +20,4 @@ const nepDepQuestions=[
 
 sql.displayDepartments()
 sql.displayRoles()
+sql.displayAllEmployees()
