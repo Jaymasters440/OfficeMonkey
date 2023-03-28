@@ -47,9 +47,9 @@ const newEmployeeQuestions = [
 function menue() {
 
     inquirer.prompt(menueQuestions).then((data) => {
-        sql.getRoleNames().then((res)=>{
-            console.log(res);
-            roles = res;
+        // sql.getRoleNames().then((res)=>{
+        //     console.log(res);
+        //     roles = res;
             switch(data.menue){
                 case "View all employees":
                     sql.displayAllEmployees();
@@ -60,17 +60,13 @@ function menue() {
                     inquirer.prompt (newEmployeeQuestions).then((data) => {
                         sql.addEmployee();
                         
-                    },then(()=> {menue}))
+                    }).then(()=> menue())
                     
             }
-        } 
-        
-        
-        )
-        
+        //}) 
     })
-
     
+    inquirer.prompt(newDepQuestions)
 }
 function parser(){
    roles=[];

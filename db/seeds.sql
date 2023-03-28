@@ -14,7 +14,7 @@ VALUES ("Public Relations Spec.", 100000, 3),
         ("IT", 120000, 4),
         ("Finance Spec", 150000, 5),
         ("Finance Manager", 200000, 5),
-        ("Logistics", 150000, 6);
+        (inde 150000, 6);
 
 
 
