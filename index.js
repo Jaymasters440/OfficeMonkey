@@ -2,7 +2,7 @@ const sql = require("./helpers/sqlQueries.js");
 
 const inquirer = require("inquirer");
 
-var roles = parser(sql.getRoleNames());
+var roles = [];
 
 const menueQuestions = [
     {
@@ -38,7 +38,7 @@ const newEmployeeQuestions = [
     {
         type: "list",
         message: "What's the new employee's role?",
-        choices: roles,
+        choices: ["Public Relations Spec.","Public Relations Manager","Logistics Tech.","IT","Finance Spec","Finance Manager","Logistics"],
         name: "employee_role",
 
     },
@@ -47,26 +47,41 @@ const newEmployeeQuestions = [
 function menue() {
 
     inquirer.prompt(menueQuestions).then((data) => {
-        switch(data.menue){
-            case "View all employees":
-                sql.displayAllEmployees();
-                break;
-            case "Add employee":
-                roles = parser(sql.getRoleNames());
-                console.log(roles);
-                inquirer.prompt (newEmployeeQuestions).then((data) => {
-                    sql.addEmployee("k","k",4,4);
-                })
-        }
+        sql.getRoleNames().then((res)=>{
+            console.log(res);
+            roles = res;
+            switch(data.menue){
+                case "View all employees":
+                    sql.displayAllEmployees();
+                    break;
+                case "Add employee":
+                    //roles = parser(sql.getRoleNames());
+                    console.log(roles);
+                    inquirer.prompt (newEmployeeQuestions).then((data) => {
+                        sql.addEmployee();
+                        
+                    },then(()=> {menue}))
+                    
+            }
+        } 
+        
+        
+        )
+        
     })
+
+    
 }
-function parser(data){
-    var res=[];
-        for(var i in data){
-            //console.log(result[i].title)
-            res.push(data[i].title)
-        }
-        return res;
+function parser(){
+   roles=[];
+   console.log(sql.getRoleNames());
+   var t = sql.getRoleNames();
+    for(var i in t){
+        console.log(t[i].title)
+        roles.push(t[i].title)
+    }
+    //return res;
+    console.log(roles);
 }
 //sql.displayDepartments()
 //sql.displayRoles()

@@ -83,10 +83,10 @@ async function getRoleNames(){
         if (err) {
           console.log(err);
         }
-        
-        //result.forEach(role => roles.push(role))
+        var roles =[];
+        result.forEach(role => roles.push(role.title))
         //.log(roles)
-        return result;
+        return roles;
       });
 }
 
