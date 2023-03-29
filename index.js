@@ -22,27 +22,7 @@ const newDepQuestions = [
     }
 ]
 
-const newEmployeeQuestions = [
-    {
-        type: "input",
-        message: "What's the new employee's first name?",
-        name: "first_name",
 
-    },
-    {
-        type: "input",
-        message: "What's the new employee's last name?",
-        name: "last_name",
-
-    },
-    {
-        type: "list",
-        message: "What's the new employee's role?",
-        choices: ["Public Relations Spec.","Public Relations Manager","Logistics Tech.","IT","Finance Spec","Finance Manager","Logistics"],
-        name: "employee_role",
-
-    },
-]
 
 function menue() {
 
@@ -50,35 +30,89 @@ function menue() {
         // sql.getRoleNames().then((res)=>{
         //     console.log(res);
         //     roles = res;
-            switch(data.menue){
-                case "View all employees":
-                    sql.displayAllEmployees();
-                    break;
-                case "Add employee":
-                    //roles = parser(sql.getRoleNames());
-                    console.log(roles);
-                    inquirer.prompt (newEmployeeQuestions).then((data) => {
-                        sql.addEmployee();
-                        
-                    }).then(()=> menue())
-                    
-            }
+        switch (data.menue) {
+            case "View all employees":
+                sql.displayAllEmployees();
+                break;
+            case "Add employee":
+
+                newEmployee();
+                //roles = parser(sql.getRoleNames());
+
+                break;
+            // new cases should look like this
+            case "View all roles":
+                sql.displayRoles();
+                break;
+            case "Add role":
+                // write function to fill role
+                newRole();
+                break;
+            case "Update employee role":
+                // write function to fill role
+                updateRole();
+                break;
+            case "Add department":
+                newDepartment();
+                break;
+            // finish cases
+        }
         //}) 
     })
-    
-    inquirer.prompt(newDepQuestions)
+
+
 }
-function parser(){
-   roles=[];
-   console.log(sql.getRoleNames());
-   var t = sql.getRoleNames();
-    for(var i in t){
-        console.log(t[i].title)
-        roles.push(t[i].title)
-    }
-    //return res;
-    console.log(roles);
+
+function newEmployee() {
+
+    const newEmployeeQuestions = [
+        {
+            type: "input",
+            message: "What's the new employee's first name?",
+            name: "first_name",
+
+        },
+        {
+            type: "input",
+            message: "What's the new employee's last name?",
+            name: "last_name",
+
+        },
+
+    ]
+    var roleList = []
+    var employeeList = []
+
+    sql.getRoleNames().then(function (result) {
+        roleList = result;
+        sql.getEmployeeNames().then(function (result) {
+            employeeList = result;
+            newEmployeeQuestions.push({
+                type: "list",
+                message: "What's the new employee's role?",
+                choices: roleList,
+                name: "employee_role",
+
+            },
+                {
+                    type: "list",
+                    message: "Who is the new employee's manager?",
+                    choices: employeeList,
+                    name: "manager",
+
+                },)
+
+            inquirer.prompt(newEmployeeQuestions).then((data) => {
+                sql.addEmployee(data.first_name, data.last_name, data.employee_role, data.manager);
+
+            }).then(() => menue())
+        })
+    })
+
+   
+
 }
+
 //sql.displayDepartments()
 //sql.displayRoles()
 //sql.displayAllEmployees()
