@@ -33,12 +33,15 @@ function displayRoles() {
 }
 
 function displayAllEmployees() {
+    return new Promise(function(resolve,reject){
     db.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, manager.first_name AS manager FROM employee JOIN role ON employee.role_id = role.id LEFT JOIN employee manager ON manager.id = employee.manager_id JOIN department ON role.department_id=department.id;`, (err, result) => {
         if (err) {
-            console.log(err);
+            reject(err);
         }
         console.table(result);
+        resolve(result);
     });
+})
 }
 
 function addEmployee(first_name, last_name, role_name, manager_name) {

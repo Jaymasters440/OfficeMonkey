@@ -32,7 +32,10 @@ function menue() {
         //     roles = res;
         switch (data.menue) {
             case "View all employees":
-                sql.displayAllEmployees();
+                (sql.displayAllEmployees().then(()=>{
+                    menue()
+                }));
+                
                 break;
             case "Add employee":
 
@@ -40,18 +43,26 @@ function menue() {
                 //roles = parser(sql.getRoleNames());
 
                 break;
+
             // new cases should look like this
+            case "View all departmets":
+                sql.displayDepartments()
+                break; 
+
             case "View all roles":
                 sql.displayRoles();
                 break;
+
             case "Add role":
                 // write function to fill role
                 newRole();
                 break;
+
             case "Update employee role":
                 // write function to fill role
                 updateRole();
                 break;
+
             case "Add department":
                 newDepartment();
                 break;
@@ -110,6 +121,11 @@ function newEmployee() {
     })
 
    
+
+}
+
+function newRole() {
+
 
 }
 
