@@ -14,6 +14,8 @@ const db = mysql.createConnection(
     console.log(`Connected to the office_db database.`)
 );
 
+//function to display departments with a promise to reject if error or resolve if successful
+
 function displayDepartments() {
     return new Promise(function(resolve,reject){
     db.query(`SELECT * FROM department;`, (err, result) => {
@@ -80,12 +82,13 @@ function addEmployee(first_name, last_name, role_name, manager_name) {
 
 }
 function addDepartment(name) {
+    return new Promise(function(resolve,reject){
     db.query(`INSERT INTO department (name) VALUE ("${name}");`, (err, result) => {
         if (err) {
-            console.log(err);
+            reject(err);
         }
-        console.log(`Added ${title} to department`);
-    })
+        resolve(`Added ${title} to department`);
+    })})
 }
 
 
