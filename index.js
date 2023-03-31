@@ -32,48 +32,50 @@ function menue() {
         //     roles = res;
         switch (data.menue) {
             case "View all employees":
-                sql.displayAllEmployees().then(()=>{
+                sql.displayAllEmployees().then(() => {
                     menue()
                 });
                 break;
 
             case "Add employee":
                 newEmployee()
-                             //roles = parser(sql.getRoleNames());
+                //roles = parser(sql.getRoleNames());
                 break;
 
             // new cases should look like this
             case "View all departments":
-                sql.displayDepartments().then(()=>{
+                sql.displayDepartments().then(() => {
                     menue()
                 })
-                
-                break; 
+
+                break;
 
             case "View all roles":
-                sql.displayRoles().then(()=>{
+                sql.displayRoles().then(() => {
                     menue()
                 });
                 break;
 
             case "Add role":
                 // write function to fill role
-                newRole()
-                                break;
+                newRole().then(() => {
+                    menue()
+                });
+                break;
 
             case "Update employee role":
                 // write function to fill role
-                updateRole().then(()=>{
+                updateRole().then(() => {
                     menue()
                 });
-                
+
                 break;
 
             case "Add department":
-                newDepartment().then(()=>{
+                newDepartment().then(() => {
                     menue()
                 });
-                 
+
                 break;
             // finish cases
         }
@@ -84,7 +86,7 @@ function menue() {
 }
 
 function newEmployee() {
-    
+
 
     const newEmployeeQuestions = [
         {
@@ -130,41 +132,41 @@ function newEmployee() {
         })
     })
 
-   
+
 
 }
 
 function newRole() {
 
-const newRoleQuestions = [
+    const newRoleQuestions = [
 
-    {
-        type: "input",
-        message: "What is the new role?",
-        name: "title",
-    },
+        {
+            type: "input",
+            message: "What is the new role?",
+            name: "title",
+        },
 
-    {
-        type:"input",
-        message:"What is the salary",
-        name:"salary",
-    },
+        {
+            type: "input",
+            message: "What is the salary",
+            name: "salary",
+        },
 
-]
-var depList = [];
-sql.getDepartmentNames().then((results) => {
-    depList = results
-    newRoleQuestions.push({
-        type:"list",
-        message:"What department should this role be added to?",
-        name:"department",
-        choices: depList,
-    }),
-    inquirer.prompt(newRoleQuestions).then((data)=> {
-        sql.addRole(data.title,data.salary,data.department).then(() => {menue()});
+    ]
+    var depList = [];
+    sql.getDepartmentNames().then((results) => {
+        depList = results
+        newRoleQuestions.push({
+            type: "list",
+            message: "What department should this role be added to?",
+            name: "department",
+            choices: depList,
+        }),
+            inquirer.prompt(newRoleQuestions).then((data) => {
+                sql.addRole(data.title, data.salary, data.department).then(() => { menue() });
+            })
+
     })
-
-})
 }
 
 //sql.displayDepartments()
