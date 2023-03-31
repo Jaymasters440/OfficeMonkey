@@ -15,21 +15,29 @@ const db = mysql.createConnection(
 );
 
 function displayDepartments() {
+    return new Promise(function(resolve,reject){
     db.query(`SELECT * FROM department;`, (err, result) => {
         if (err) {
-            console.log(err);
+            reject(err);
         }
         console.table(result);
+        resolve();
+        
     });
+});
+
 }
 
-function displayRoles() {
-    db.query(`SELECT role.id,  department.name AS department, salary FROM role INNER JOIN department ON role.department_id = department.id;`, (err, result) => {
+function displayRoles() 
+    {return new Promise(function(resolve,reject){
+    db.query(`SELECT role.id, title, department.name AS department, salary FROM role INNER JOIN department ON role.department_id = department.id;`, (err, result) => {
         if (err) {
-            console.log(err);
+            reject(err);
         }
         console.table(result);
+        resolve();
     });
+});
 }
 
 function displayAllEmployees() {
@@ -45,6 +53,7 @@ function displayAllEmployees() {
 }
 
 function addEmployee(first_name, last_name, role_name, manager_name) {
+    return new Promise(function(resolve,reject){
     db.query(`SELECT id FROM role WHERE title = "${role_name}";`, (err, result) => {
         if (err) {
             console.log(err);
@@ -53,19 +62,20 @@ function addEmployee(first_name, last_name, role_name, manager_name) {
         var role_id = result[0].id;
         db.query(`SELECT id FROM employee WHERE CONCAT (first_name, " ", last_name) = "${manager_name}"; `,(err, result) => {
             if(err) {
-                console.log(err);
+                reject(err);
             }
             
             var manager_id = result[0].id;
             db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUE ("${first_name}", "${last_name}", "${role_id}", "${manager_id}");`, (err, result) => {
                 if (err) {
-                    console.log(err);
+                    reject(err);
                 }
                 console.log(`Added ${first_name} ${last_name} to employee`)
+                resolve();
             })
         })
 
-    })
+        })})
    
 
 }
@@ -79,14 +89,29 @@ function addDepartment(name) {
 }
 
 
-function addRole(title, salary, department_id) {
-    db.query(`INSERT INTO role (title, salary, department_id) VALUE ("${title}", "${salary}", "${department_id}");`, (err, result) => {
-        if (err) {
-            console.log(err);
-        }
-        console.log(`Added ${title} to roles`);
-    })
-}
+
+function addRole(title, salary, department) {
+
+    return new Promise(function(resolve,reject){
+        db.query(`SELECT id FROM department WHERE name = "${department}";`, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+                
+            var department_id = result[0].id;
+                      
+                
+                    db.query(`INSERT INTO role (title, salary, department_id) VALUE ("${title}", "${salary}", "${department_id}");`, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    console.log(`Added ${title} to roles`)
+                    resolve();
+                })
+    
+            })})
+
+    }
 
 /*function getDepartmentNames() {
     db.query(`SELECT name FROM department;`, (err, result) => {

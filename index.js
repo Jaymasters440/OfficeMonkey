@@ -32,39 +32,48 @@ function menue() {
         //     roles = res;
         switch (data.menue) {
             case "View all employees":
-                (sql.displayAllEmployees().then(()=>{
+                sql.displayAllEmployees().then(()=>{
                     menue()
-                }));
-                
+                });
                 break;
+
             case "Add employee":
-
-                newEmployee();
-                //roles = parser(sql.getRoleNames());
-
+                newEmployee()
+                             //roles = parser(sql.getRoleNames());
                 break;
 
             // new cases should look like this
-            case "View all departmets":
-                sql.displayDepartments()
+            case "View all departments":
+                sql.displayDepartments().then(()=>{
+                    menue()
+                })
+                
                 break; 
 
             case "View all roles":
-                sql.displayRoles();
+                sql.displayRoles().then(()=>{
+                    menue()
+                });
                 break;
 
             case "Add role":
                 // write function to fill role
-                newRole();
-                break;
+                newRole()
+                                break;
 
             case "Update employee role":
                 // write function to fill role
-                updateRole();
+                updateRole().then(()=>{
+                    menue()
+                });
+                
                 break;
 
             case "Add department":
-                newDepartment();
+                newDepartment().then(()=>{
+                    menue()
+                });
+                 
                 break;
             // finish cases
         }
@@ -75,6 +84,7 @@ function menue() {
 }
 
 function newEmployee() {
+    
 
     const newEmployeeQuestions = [
         {
@@ -111,12 +121,12 @@ function newEmployee() {
                     choices: employeeList,
                     name: "manager",
 
-                },)
+                })
 
             inquirer.prompt(newEmployeeQuestions).then((data) => {
-                sql.addEmployee(data.first_name, data.last_name, data.employee_role, data.manager);
+                sql.addEmployee(data.first_name, data.last_name, data.employee_role, data.manager).then(() => menue());
 
-            }).then(() => menue())
+            })
         })
     })
 
@@ -126,7 +136,35 @@ function newEmployee() {
 
 function newRole() {
 
+const newRoleQuestions = [
 
+    {
+        type: "input",
+        message: "What is the new role?",
+        name: "title",
+    },
+
+    {
+        type:"input",
+        message:"What is the salary",
+        name:"salary",
+    },
+
+]
+var depList = [];
+sql.getDepartmentNames().then((results) => {
+    depList = results
+    newRoleQuestions.push({
+        type:"list",
+        message:"What department should this role be added to?",
+        name:"department",
+        choices: depList,
+    }),
+    inquirer.prompt(newRoleQuestions).then((data)=> {
+        sql.addRole(data.title,data.salary,data.department).then(() => {menue()});
+    })
+
+})
 }
 
 //sql.displayDepartments()
