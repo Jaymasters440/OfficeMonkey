@@ -36,9 +36,10 @@ function menue() {
                     menue()
                 });
                 break;
-
+// added line 41 amd 42
             case "Add employee":
-                newEmployee()
+                newEmployee();
+                
                 //roles = parser(sql.getRoleNames());
                 break;
 
@@ -58,23 +59,18 @@ function menue() {
 
             case "Add role":
                 // write function to fill role
-                newRole().then(() => {
-                    menue()
-                });
+                newRole();
                 break;
 
             case "Update employee role":
                 // write function to fill role
-                updateRole().then(() => {
-                    menue()
-                });
+                updateRole()
+                
 
                 break;
 
             case "Add department":
-                newDepartment().then(() => {
-                    menue()
-                });
+                newDepartment();
 
                 break;
             // finish cases
@@ -103,8 +99,8 @@ function newEmployee() {
         },
 
     ]
-    var roleList = []
-    var employeeList = []
+    var roleList = [];
+    var employeeList = [];
 
     sql.getRoleNames().then(function (result) {
         roleList = result;
@@ -131,7 +127,6 @@ function newEmployee() {
             })
         })
     })
-
 
 
 }
@@ -167,6 +162,51 @@ function newRole() {
             })
 
     })
+}
+
+function updateRole() {
+    var roleName = [];
+    var employees = [];
+
+        sql.getRoleNames().then(function (result){
+            roleName = result;
+            sql.getEmployeeNames().then(function (result){
+                employees = result; 
+
+                const updateRoleQuestions = [
+
+                    {
+                        type: "list",
+                        message: "Which employee's role do you want to update?",
+                        choices: employees,
+                        name: "employee"
+                    },
+
+                    {
+                        type: "list",
+                        message: "Which role do you want to assign to the employee?",
+                        choices: roleName,
+                        name: "role"
+                    },
+                ]
+                inquirer.prompt(updateRoleQuestions).then((data) => {
+                    sql.updateEmployeeRole(data.employee, data.role).then(() => menue());
+
+                })
+            })
+        })
+
+}
+
+function newDepartment() {
+    const newDepartmentQuestion = [{
+        type:"input",
+        message:"What would you like to name your new department?",
+        name:"newDepartment",
+    }];
+  inquirer.prompt(newDepartmentQuestion).then((data)=>{
+    sql.addDepartment(data.newDepartment).then(()=> menue());
+  })     
 }
 
 //sql.displayDepartments()

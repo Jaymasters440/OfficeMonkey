@@ -17,7 +17,8 @@ Program to keep track of Employees titles, roles and salaries.
   
   ## Installation
   
-  Installed using commanline inputs "node install" and make sure source db/schema.sql and source db/seeds.sql have been initialized as well. A vidio tutorial can be seen at 
+  Installed using commanline inputs "node install" and make sure source db/schema.sql and source db/seeds.sql have been initialized as well. A vidio tutorial can be seen at... 
+  https://drive.google.com/file/d/1hGVF2IJ75O7c-tVSukrksIz5B61TeGRe/view
   
   ## Usage
   
